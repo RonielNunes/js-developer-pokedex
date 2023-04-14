@@ -1,7 +1,7 @@
 
 const pokeApi = {}
 
-function convertPokeApiDetailToPokemon(pokeDetail) {
+function convertPokeApiDetailToPokemon2(pokeDetail) {
     const pokemon = new Pokemon()
     pokemon.number = pokeDetail.id
     pokemon.name = pokeDetail.name
@@ -12,10 +12,42 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     pokemon.types = types
     pokemon.type = type
 
-    pokemon.photo = pokeDetail.sprites.other.dream_world.front_default
+    
 
     return pokemon
 }
+
+
+function convertPokeApiDetailToPokemon(pokeDetail) {
+    const pokemon = new Pokemon()
+    
+    pokemon.number = pokeDetail.id
+    pokemon.name = pokeDetail.name
+    pokemon.height = pokeDetail.height;
+    pokemon.weight = pokeDetail.weight;
+    
+    const types = pokeDetail.types.map(typeSlot => typeSlot.type.name)
+    const abilities = pokeDetail.abilities.map(abilitySlot => abilitySlot.ability.name)
+    const stats = pokeDetail.stats.map(statSlot => statSlot.stat.name)
+    const baseStats = pokeDetail.stats.map(statSlot => statSlot.base_stat);
+    const [type] = types
+    const [ability] = abilities
+    const [stat] = stats
+
+    pokemon.types = types
+    pokemon.type = type
+    pokemon.abilities = abilities
+    pokemon.ability = ability
+    pokemon.stats = stats
+    pokemon.stat = stat
+    pokemon.baseStats = baseStats;
+    pokemon.photo = pokeDetail.sprites.other.dream_world.front_default
+    pokemon.photo2 = pokeDetail.sprites.other.home.front_default
+    pokemon.photoAnimation = pokeDetail.sprites.versions['generation-v']['black-white'].animated.front_default;
+
+    return pokemon
+}
+
 
 pokeApi.getPokemonDetail = (pokemon) => {
     return fetch(pokemon.url)
